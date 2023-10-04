@@ -51,20 +51,20 @@ def generar_grafo():
         for i in range(1, num_nodos - 1):
             if num_nodos<=8:
                 if i%2==0:
-                    x = 10 * (i-1) / (num_nodos - 1)  # Distribuir nodos uniformemente
+                    x = 10 * (i+2) / (num_nodos - 1)  # Distribuir nodos uniformemente
                     y = -3  # En la misma línea horizontal
                 else:
-                    x = 10 * i / (num_nodos - 1)  # Distribuir nodos uniformemente
+                    x = 10 * (i+3) / (num_nodos - 1)  # Distribuir nodos uniformemente
                     y = 3  # En la misma línea horizontal 
             else:
                 if i%3==1:
-                    x = 10 * (i) / (num_nodos - 1)  # Distribuir nodos uniformemente
+                    x = 10 * (i+4) / (num_nodos - 1)  # Distribuir nodos uniformemente
                     y = -3  # En la misma línea horizontal
                 if i%3==2:
-                    x = 10 * (i-1) / (num_nodos - 1)  # Distribuir nodos uniformemente
+                    x = 10 * (i+3) / (num_nodos - 1)  # Distribuir nodos uniformemente
                     y = 0  # En la misma línea horizontal
                 if i%3==0:
-                    x = 10 * (i-2) / (num_nodos - 1)  # Distribuir nodos uniformemente
+                    x = 10 * (i+2) / (num_nodos - 1)  # Distribuir nodos uniformemente
                     y = 3  # En la misma línea horizontal
                     
             

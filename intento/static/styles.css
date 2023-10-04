@@ -226,3 +226,12 @@ text-align: center;
 .aleatorio h2{
     width: 100%;
 }
+
+.manual{
+    color: #000000;
+    text-align: left;
+    padding: 20px 0;
+    margin: 2%;
+    min-height: 600px;
+}
+.manual h2{ width: 100%;}
