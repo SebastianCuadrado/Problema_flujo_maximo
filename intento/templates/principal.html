@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problema del Flujo Máximo</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark  fixed-top">
+            <a class="navbar-brand" href="/">Problema del flujo máximo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+               
+            </div>
+        </nav>
+        <div class="content">
+            <div class="lema">
+                <h2>Puedes generar la matriz de forma voluntaria o deja que la página cree uno por ti!!</h2>
+            </div>
+            <div class="boton">
+                <a href="#voluntario" class="btn" >Voluntario</a>
+            </div>
+            <div class="boton">
+                <a href="#aleatorio" class="btn" >Aleatorio</a>
+            </div>
+        </div>
+            
+        
+    </header>
+    
+    <div class="aleatorio">
+        <section id="aleatorio">
+            <h2 style="  color: rgb(82, 7, 82); ">Deja que el sistema cree una matriz por ti!</h2>
+
+        <div class="cuadro">
+            <div class="matriz">
+                <h2>Escoge un tamaño:</h2>
+                <label for="tamanioA">Tamaño de la Matriz:</label>
+                <input type="number" id="tamanioA" min="5" max="15">
+                <div class="boton" id="generarMatrizAleatoria">
+                <button class="btn">Generar Matriz Aleatoria</button>
+                </div>
+                <table class="matriz" id="matrizAleatoria"></table>
+            </div>
+                
+            <script>
+            const generarMatrizAleatoriaButton = document.getElementById("generarMatrizAleatoria");
+            const matrizAleatoriaTable = document.getElementById("matrizAleatoria");
+    
+            generarMatrizAleatoriaButton.addEventListener("click", function() {
+                const tamanioA = parseInt(document.getElementById("tamanioA").value);
+    
+                // Limpiar la tabla anterior si la hubiera
+                matrizAleatoriaTable.innerHTML = '';
+    
+                // Generar la matriz con valores aleatorios y diagonal, primera columna y última fila con 0
+                for (let i = 0; i < tamanioA; i++) {
+                const fila = document.createElement('tr');
+                for (let j = 0; j < tamanioA; j++) {
+                const celda = document.createElement('td');
+                const valorInput = document.createElement('input');
+                valorInput.type = 'number';
+                valorInput.min = '0';
+                valorInput.max = '99';
+
+                let valor = 0;
+                if (i === j || j === 0 || i === tamanioA - 1 || (i===0 && j===tamanioA-1) || (j-i>=tamanioA-2 || i-j>=tamanioA-2) )  {
+                    valor = 0; // Establecer 0 en la diagonal, primera columna y última fila
+                } else {
+                    if(i===0 &&(j===1 || j===2 || j===3)){
+                        valor=Math.floor(Math.random() * 20)+1;;
+                    }else{
+                       
+                    let probabilidad=Math.random();
+                    if(probabilidad<=0.35){
+                        valor=0;
+                    }else{
+                        valor = Math.floor(Math.random() * 20)+1;}
+                    } // Valor aleatorio entre 0 y 20
+                }
+                valorInput.value = valor;
+                celda.appendChild(valorInput);
+                fila.appendChild(celda);
+                }
+                matrizAleatoriaTable.appendChild(fila);
+                }
+
+                // Ajustar los valores (j, i) si (i, j) es mayor que 0
+                for (let i = 0; i < tamanioA; i++) {
+                for (let j = 0; j < tamanioA; j++) {
+                if (i !== j && matrizAleatoriaTable.rows[i].cells[j].querySelector('input').value > 0) {
+                // Establecer 0 en (j, i)
+                matrizAleatoriaTable.rows[j].cells[i].querySelector('input').value = 0;
+            }
+            }
+            }
+
+            });
+            </script>
+            <div class="grafo">
+                <div class="botongrafo">
+                <form id="matrizForm" action="/generar_grafo" method="post">
+                <input type="hidden" name="matrizData" id="matrizData" value="">
+                <div class="boton">
+                <button type="submit" class="btn">Generar Grafo:</button>
+                </div>
+                </form>
+                </div>
+
+
+                <div class="imagengrafo">
+                <h2>Grafo Generado</h2>
+                <img src="" alt="Grafo generado" id="grafoImage">
+                </div>
+        
+            <!-- JavaScript para enviar la matriz y mostrar la imagen del grafo -->
+                <script>
+                const matrizForm = document.getElementById("matrizForm");
+                const matrizData = document.getElementById("matrizData");
+                const grafoImage = document.getElementById("grafoImage");
+
+                // Evento al enviar el formulario
+                matrizForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                // Obtener datos de la matriz
+                const matriz = [];
+                const filas = document.querySelectorAll("#matrizAleatoria tr");
+
+                filas.forEach((fila) => {
+                const valores = Array.from(fila.querySelectorAll("input")).map(input => parseInt(input.value));
+                matriz.push(valores);
+                });
+
+                // Convertir la matriz en formato JSON y asignarla al campo del formulario
+                matrizData.value = JSON.stringify(matriz);
+
+                // Enviar la matriz al servidor Flask
+                fetch("/generar_grafo", {
+                method: "POST",
+                body: new URLSearchParams(new FormData(matrizForm)),
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.error) {
+                    console.error("Error al generar el grafo.");
+                } else {
+                    // Mostrar la imagen del grafo generada por Python
+                    grafoImage.src = data.image_url;
+                }
+                });
+            });s
+            </script>
+            </div>
+        </div>
+        </section>
+    </div>
+</body>
