@@ -45,11 +45,11 @@ def generar_grafo():
                     G.add_edge(i, j, weight=matriz[i][j])
                     
         pos[0] = (0, 0)
-        pos[num_nodos - 1] = (10, 0)
+        pos[num_nodos - 1] = (15, 0)
 
         # Calcular las posiciones de los nodos intermedios en línea recta
         for i in range(1, num_nodos - 1):
-            if num_nodos<=8:
+            if num_nodos<=6:
                 if i%2==0:
                     x = 10 * (i+2) / (num_nodos - 1)  # Distribuir nodos uniformemente
                     y = -3  # En la misma línea horizontal
