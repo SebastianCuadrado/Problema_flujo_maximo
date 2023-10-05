@@ -10,6 +10,42 @@ matplotlib.use('Agg')
 
 app = Flask(__name__, static_folder='static')
 
+def ford_fulkerson(graph, source, sink):
+
+    def bfs(graph, parent, source, sink):
+        visited = [False] * len(graph)
+        queue = [source]
+        visited[source] = True
+
+        while queue:
+            u = queue.pop(0)
+            for ind, val in enumerate(graph[u]):
+                if visited[ind] is False and val > 0:
+                    queue.append(ind)
+                    parent[ind] = u
+                    visited[ind] = True
+
+        return True if visited[sink] else False
+
+    max_flow = 0
+    parent = [-1] * len(graph)
+
+    while bfs(graph, parent, source, sink):
+        path_flow = float('inf')
+        s = sink
+        while s != source:
+            path_flow = min(path_flow, graph[parent[s]][s])
+            s = parent[s]
+
+        max_flow += path_flow
+        v = sink
+        while v != source:
+            u = parent[v]
+            graph[u][v] -= path_flow
+            graph[v][u] += path_flow
+            v = parent[v]
+
+    return max_flow
 
 
 @app.route('/')
@@ -37,6 +73,7 @@ def generar_grafo():
         G = nx.DiGraph()
         # Agrega nodos y aristas basados en la matriz
         num_nodos = len(matriz)
+        print("num_nodos:",num_nodos)
         G.add_nodes_from(range(num_nodos))
 
         for i in range(num_nodos):
@@ -88,11 +125,17 @@ def generar_grafo():
         img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
         print("Imagen generada")
         plt.close()
+        
+        flujo_maximo = ford_fulkerson(matriz, 0, num_nodos-1)
+        print(flujo_maximo)
 
-        return jsonify({'image_url': 'data:image/png;base64, ' + img_base64})
+        return jsonify({'image_url': 'data:image/png;base64, ' + img_base64,'flujo_maximo':flujo_maximo})
     except Exception as e:
         return jsonify({'error': str(e)})
 
+
+        
+        
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -55,6 +55,8 @@
                     <button class="btn">Generar Matriz Vacia</button>
                 </div>
                 <table class="matriz" id="matrizAleatoria"></table>
+                
+
             </div>
                 
             <script>
@@ -139,9 +141,12 @@
                 }
                 );
             </script>
+            
 
             <div class="grafo">
                 <div class="botongrafo">
+                    <div id="resultadoFlujoMaximo"></div>
+
                 <form id="matrizForm" action="/generar_grafo" method="post">
                 <input type="hidden" name="matrizData" id="matrizData" value="">
                 <div class="boton">
@@ -190,6 +195,8 @@
                 } else {
                     // Mostrar la imagen del grafo generada por Python
                     grafoImage.src = data.image_url;
+                    const resultadoFlujoMaximo = document.getElementById("resultadoFlujoMaximo");
+                    resultadoFlujoMaximo.innerText = "Flujo Máximo: " + data.flujo_maximo;
                 }
                 });
             });
