@@ -23,11 +23,10 @@ h1 {
     margin: 0;
 }
 
-/* Estilos para el contenido */
 .cuadro {
     
-    width:99%;
-    margin-left:1%;
+    width:80%;
+    margin-left:10%;
     background-color: #fff;
     padding: 20px;
     height: 50%;
@@ -36,6 +35,39 @@ h1 {
     align-items: center;
     display:flex;
 }
+.aplicaciones h2 h6 {
+    margin:10%;
+}
+.cuadro2 {
+    
+    width:80%;
+    margin-left:10%;
+    background-color: #fff;
+    padding: 20px;
+    height: 50%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Espaciado entre elementos */
+    padding: 5%;
+    margin-top: 2%;
+}
+
+.items .viajes, .items .transmisión_datos, .items .rutas, .items .inventario, .items .hidro, .items .trafico {
+    flex-basis: calc(33.33% - 10px); /* Ancho de elemento con espacio entre ellos */
+    margin-bottom: 8%; /* Espacio entre elementos */
+    text-align: center;
+}
+i {
+margin-bottom:8%;
+}
+
+
 
 h2 {
     font-size: 20px;
@@ -136,6 +168,14 @@ ul {
     background-color: #ff6600;
 }
 .definicion {
+    
+    color: #000000;
+    text-align: left;
+    padding: 20px 0;
+    margin: 2%;
+    min-height: 600px;
+}
+.aplicaciones {
     
     color: #000000;
     text-align: left;
