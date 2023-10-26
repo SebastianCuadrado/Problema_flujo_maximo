@@ -24,24 +24,14 @@
                
             </div>
         </nav>
-        <div class="content">
-            <div class="lema">
-                <h2>Puedes generar la matriz de forma voluntaria o deja que la página cree uno por ti!!</h2>
-            </div>
-            <div class="boton">
-                <a href="#voluntario" class="btn" >Voluntario</a>
-            </div>
-            <div class="boton">
-                <a href="#aleatorio" class="btn" >Aleatorio</a>
-            </div>
-        </div>
+        
             
         
-    </header>
+    
     
     <div class="aleatorio">
         <section id="aleatorio">
-            <h2 style="  color: rgb(82, 7, 82); ">Crea una matriz o deja que el sistema cree una matriz por ti!</h2>
+            <h2 >Crea una matriz o deja que el sistema cree una matriz por ti!</h2>
 
         <div class="cuadro">
             <div class="matriz">
@@ -145,22 +135,24 @@
 
             <div class="grafo">
                 <div class="botongrafo">
-                    <div id="resultadoFlujoMaximo"></div>
+                    
 
-                <form id="matrizForm" action="/generar_grafo" method="post">
-                <input type="hidden" name="matrizData" id="matrizData" value="">
-                <div class="boton">
-                <button type="submit" class="btn">Generar Grafo:</button>
-                </div>
-                </form>
+                    <form id="matrizForm" action="/generar_grafo" method="post">
+                        <input type="hidden" name="matrizData" id="matrizData" value="">
+                        <div class="boton">
+                            <button type="submit" class="btn">Generar Grafo:</button>
+                        </div>
+                    </form>
                 </div>
 
 
                 <div class="imagengrafo">
-                <h2>Grafo Generado</h2>
-                <img src="" alt="Grafo generado" id="grafoImage">
+                    <h2>Grafo Generado</h2>
+                    <img src="" alt="Grafo generado" id="grafoImage">
                 </div>
-        
+                <h2>Flujo máximo:
+                <div id="resultadoFlujoMaximo"></div>
+                </h2>
             <!-- JavaScript para enviar la matriz y mostrar la imagen del grafo -->
                 <script>
                 const matrizForm = document.getElementById("matrizForm");
@@ -196,7 +188,7 @@
                     // Mostrar la imagen del grafo generada por Python
                     grafoImage.src = data.image_url;
                     const resultadoFlujoMaximo = document.getElementById("resultadoFlujoMaximo");
-                    resultadoFlujoMaximo.innerText = "Flujo Máximo: " + data.flujo_maximo;
+                    resultadoFlujoMaximo.innerText =  data.flujo_maximo;
                 }
                 });
             });
@@ -205,5 +197,6 @@
         </div>
         </section>
     </div>
+    </header>
     
 </body>
